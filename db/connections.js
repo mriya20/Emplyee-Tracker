@@ -13,8 +13,8 @@ app.use(express.json()); // Recognizes the incoming Request Object as a JSON Obj
 const db = mysql.createConnection(
     {
         host: 'localhost',
-        user: root,
-        password: ukraine1992,
+        user: 'root',
+        password: 'ukraine1992',
         database: process.env.DB_NAME,
     }
 );
