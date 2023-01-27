@@ -8,10 +8,10 @@
 * [Demo](#demo)
 * [Technology](#technology)
 * [Usage](#usage)
-* [Features](#features)
+* [Installation](#Installation)
 * [License](#license)
 * [Contribution](#contribution)
-* [Questions](#questions)
+* [Contact](#contact)
 
 # User Story 
 
@@ -53,39 +53,38 @@ For `Express.js`
 npm i express
 ```
 
-# Features 
+## Installation
 
-1. MySql2 npm package is used to connect to database and perform queries.
+* MySql2 npm package is used to connect to database and perform queries.
 
-2. Inquirer npm package is used to interact with the user via the command-line.
+* Inquirer npm package is used to interact with the user via the command-line.
 
-3. Asciiart-logo NPM package is used to add some visual flare to the main logo.
+* Asciiart-logo NPM package is used to add some visual flare to the main logo.
 
-4. User can view all employees, employees by department, employees by manager.
+* User can view all employees, employees by department, employees by manager.
 
-5. User can add employee, add department, add role.
+* User can add employee, add department, add role.
 
-6. User can update employee role, employee manager.
+* User can update employee role, employee manager.
 
-7. User can remove employee.
+* User can remove employee.
 
-8. User can view all departments, roles.
+* User can view all departments, roles.
 
-10. Created three tables - departments, roles and employees. These tables are connected with primary and foreign keys.
+* Created three tables - departments, roles and employees. These tables are connected with primary and foreign keys.
 
-11. Included a `schema.sql` to hold databse schema and `seed.sql` file to pre-populate database. This makes development of individual features much easier.
+* Included a `schema.sql` to hold databse schema and `seed.sql` file to pre-populate database. This makes development of individual features much easier.
 
-# License
+## License
 
 This project is licensed under MIT license.
 
 
-# Contribution
+## Contribution
 
 Pull requests are always welcome!
 
 
-
-# Contact
+## Contact
  If you have any questions please contact me Anastasia Markova at: anastasia19markova@gmail.com 
  For more projects please visit my GitHub : https://github.com/mriya20
