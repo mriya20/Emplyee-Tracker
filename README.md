@@ -23,7 +23,7 @@ So that I can organize and plan my business
 
 # Demo : 
 
-For a video of how to use the application please follow this link [this link](https://www.awesomescreenshot.com/video/14338378?key=9c59ad587d1c3a4f404c97b2119ae9a0)
+For a video of how to use the application please follow this link [this link](https://www.awesomescreenshot.com/video/14338687?key=a8b5794d3322578eee3fd7fb4dfb0027)
 
 
 # Technology
