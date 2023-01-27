@@ -1,3 +1,6 @@
+const inquirer = require('inquirer');
+const mysql = require('mysql2');
+
 const db = require('./connections');
 
 beginQuestions = async () => {
@@ -46,7 +49,7 @@ beginQuestions = async () => {
     }
 };
 
-viewAllEmployees = async () => {
+viewAllDepartments = async () => {
     db.query(
         `SELECT * FROM departments`,
         function (err, res) {
@@ -60,7 +63,7 @@ viewAllEmployees = async () => {
 
 viewAllRoles = async () => {
     db.query(
-        `SELECT roles.title, roles.salary, role.department_id AS dept_id, departments.name AS name_of_dept
+        `SELECT roles.title, roles.salary, roles.department_id AS dept_id, departments.name AS name_of_dept
         FROM roles
         LEFT JOIN departments ON departments.id = roles.department_id
         ORDER BY department_id;`,
@@ -75,11 +78,11 @@ viewAllRoles = async () => {
 
 viewAllEmployees = async () => {
     db.query(
-        `SELECT employees.id, employees.first_name, roles.title, departments.name AS departments, roles.salary, CONCAT_WS('', manager.first_name, manager.last_name) AS manager
+        `SELECT employees.id, employees.first_name, roles.title, departments.name AS departments, roles.salary, CONCAT_WS('', managers.first_name, managers.last_name) AS manager
             FROM employees
-            LEFT JOIN roles ON employee.role_id = role.id
-            LEFT JOIN departments ON department.id = role.department_id
-            LEFT JOIN employees manager ON employees.manager_id = manager.id;`,
+            LEFT JOIN roles ON employees.role_id = roles.id
+            LEFT JOIN departments ON departments.id = roles.department_id
+            LEFT JOIN employees managers ON employees.manager_id = managers.id;`,
         function (err, res) {
             if (err) throw err
             console.log("\n");
@@ -116,10 +119,10 @@ addDepartment = async () => {
 addRole = async () => {
     let departments = [];
 
-    db.query(`SELECT *FROM departments`, (err, rows) => {
+    db.query(`SELECT * FROM departments`, (err, rows) => {
         if (err) throw err;
         for (let i = 0; i < rows.length; i++) {
-            departments.push({ name: rows[i], name, value: rows[i], id });
+            departments.push({ name: rows[i].name, value: rows[i].id });
         }
     });
 
@@ -228,43 +231,45 @@ addEmployee = async () => {
 
 updateEmployee = async () => {
     let employees = [];
-    db.query(`SELECT CONCACT_WS('', employees.first_name, employees.last_name) AS employees_id FROM employees `, (err, rows) => {
-        if (err) throw err;
-        for (let i = 0; i < rows.lenght; i++) {
-            employees.push({ name: rows[i].employee, value: rows[i].employee_id });
-        }
-    });
-
-    let roles = [];
-    dqb.query(`SELECT * FROM roles`, (err, rows) => {
+    db.query(`SELECT CONCAT('', employees.first_name, employees.last_name) AS name, id FROM employees `, async (err, rows) => {
         if (err) throw err;
         for (let i = 0; i < rows.length; i++) {
-            roles.push({ name: rows[i].title, values: rows[i].id });
+            employees.push({ name: rows[i].name, value: rows[i].id });
         }
-    });
 
-    const res = await inquirer.prompt([
-        {
-            name: 'name',
-            type: 'list',
-            message: 'What is the name of the employee?',
-            choices: employees
 
-        },
-        {
-            name: 'role',
-            type: 'list',
-            message: "What is the employee's new role?",
-            choices: roles
-        }
-    ]);
+        let roles = [];
+        db.query(`SELECT * FROM roles`, async (err, rows) => {
+            if (err) throw err;
+            for (let i = 0; i < rows.length; i++) {
+                roles.push({ name: rows[i].title, value: rows[i].id });
+            }
 
-    const sql = `UPDATE employees SET role_id = ? WHERE id = ?`;
-    const params = [res.role, res.name];
-    db.query(sql, params, (err, row) => {
-        if (err) throw err;
-        console.log("\n");
-        beginQuestions();
+
+            const res = await inquirer.prompt([
+                {
+                    name: 'name',
+                    type: 'list',
+                    message: 'What is the name of the employee?',
+                    choices: employees
+
+                },
+                {
+                    name: 'role',
+                    type: 'list',
+                    message: "What is the employee's new role?",
+                    choices: roles
+                }
+            ]);
+
+            const sql = `UPDATE employees SET role_id = ? WHERE id = ?`;
+            const params = [res.role, res.name];
+            db.query(sql, params, (err, row) => {
+                if (err) throw err;
+                console.log("\n");
+                beginQuestions();
+            });
+        });
     });
 }
 
